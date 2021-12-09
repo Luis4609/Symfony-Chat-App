@@ -9,12 +9,11 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>Send new message {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/luism/Documents/Software/Symfony/chat-app/src/Controller/MessagesController.php'|file_link(0) }}">src/Controller/MessagesController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/luism/Documents/Software/Symfony/chat-app/templates/messages/index.html.twig'|file_link(0) }}">templates/messages/index.html.twig</a></code></li>
-    </ul>
+{{ form_start(form) }}
+{{ form_widget(form) }}
+     <input type="submit"/>
+{{ form_end(form) }}
 </div>
 {% endblock %}

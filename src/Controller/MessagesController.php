@@ -2,16 +2,20 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Messages;
-use App\Form\NewMessageType;
+use App\Form\SendMessageType;
 use App\Repository\MessagesRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Message;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
- 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 class MessagesController extends AbstractController
 {
     #[Route('/', name: 'messages')]
@@ -26,7 +30,9 @@ class MessagesController extends AbstractController
     {
         $number = random_int(0, 100);
         $messages = $messagesRepository
-            ->findAll();
+            ->findBy(
+                ['FromUserId' => '2']
+            );
         return $this->render('messages/inbox.html.twig', [
             'controller_name' => 'Inbox Controller',
             'number' => $number,
@@ -60,7 +66,7 @@ class MessagesController extends AbstractController
         ]);
     }
     #[Route('/new_message', name: 'new_message')]
-    public function newMessage(ManagerRegistry $doctrine, ValidatorInterface $validator): Response
+    public function newMessage(ManagerRegistry $doctrine, ValidatorInterface $validator, Request $request): Response
     {
 
         $date = new \DateTime('@' . strtotime('now'));
@@ -68,29 +74,22 @@ class MessagesController extends AbstractController
         $entityManager = $doctrine->getManager();
 
         $message = new Messages();
-        $message->setFromUserId(2);
-        $message->setToUserId(3);
-        $message->setIsRead(0);
-        $message->setText('Hola amigos, test desde Symfony2.');
-        $message->setTimestamp($date);
+        
+        $form = $this->createForm(SendMessageType::class, $message);
 
-        $entityManager->persist($message);
-        $entityManager->flush();
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $message = $form->getData();
 
-        $errors = $validator->validate($message);
-        if (count($errors) > 0) {
-            return new Response((string) $errors, 400);
+            // ... perform some action, such as saving the task to the database
+
+            return $this->redirectToRoute('inbox');
         }
-
-        $form = $this->createForm(NewMessageType::class, $message);
 
         return $this->renderForm('messages/new_messages.html.twig', [
             'form' => $form,
             'controller_name' => 'MessagesController',
         ]);
-        // return new Response('Saved new message with id ' . $message->getId());
-        // return $this->render('messages/new_messages.html.twig', [
-        //     'controller_name' => 'MessagesController',
-        // ]);
     }
 }
