@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UsersController!
+{% endblock %}
+
+{% block body %}
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+			<div class="container-fluid d-grid row" style="grid-template-columns: 1fr 4fr 1fr">
+				<a class="navbar-brand" href="#">Message-App</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse justify-content-center" id="navbarCollapse">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item active">
+							<a class="nav-link" href="inbox">Inbox</a>
+						</li>
+						<li class="nav-item active">
+							<a class="nav-link" href="outbox">Outbox
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="index.php?page=groups-list">Groups</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="index.php?page=contact-list">Contacts</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="index.php?page=friends-list">Friends</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="index.php?page=friends-request">Friend Requests</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="index.php?page=new-message">New message</a>
+						</li>
+					</ul>
+				</div>
+				<div class="d-flex ">
+					<div class="flex-shrink-0 dropdown mx-auto">
+						<a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+							<img src="$userAvatar" alt="mdo" width="32" height="32" class="rounded-circle"/>
+						</a>
+						<ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+							<li>
+								<a class="dropdown-item" href="index.php?page=user-profile&username=$userName">Profile</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="index.php?page=edit-user-profile">Settings</a>
+							</li>
+							<li>
+								<hr class="dropdown-divider"/>
+							</li>
+							<li>
+								<a class="dropdown-item" href="index.php">Sign out</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</header>
+{% endblock %}
