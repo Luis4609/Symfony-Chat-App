@@ -14,26 +14,26 @@
 				<div class="collapse navbar-collapse justify-content-center" id="navbarCollapse">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item active">
-							<a class="nav-link" href="inbox">Inbox</a>
+							<a class="nav-link" href="{{ path('inbox_messages') }}">Inbox</a>
 						</li>
 						<li class="nav-item active">
-							<a class="nav-link" href="outbox">Outbox
+							<a class="nav-link" href="{{ path('outbox_messages') }}">Outbox
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="index.php?page=groups-list">Groups</a>
+							<a class="nav-link" href="{{ path('inbox_messages') }}">Groups</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="index.php?page=contact-list">Contacts</a>
+							<a class="nav-link" href="{{ path('inbox_messages') }}">Contacts</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="index.php?page=friends-list">Friends</a>
+							<a class="nav-link" href="{{ path('inbox_messages') }}">Friends</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="index.php?page=friends-request">Friend Requests</a>
+							<a class="nav-link" href="{{ path('inbox_messages') }}">Friend Requests</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="index.php?page=new-message">New message</a>
+							<a class="nav-link" href="{{ path('inbox_messages') }}">New message</a>
 						</li>
 					</ul>
 				</div>
@@ -44,10 +44,10 @@
 						</a>
 						<ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
 							<li>
-								<a class="dropdown-item" href="index.php?page=user-profile&username=$userName">Profile</a>
+								<a class="dropdown-item" href="{{ path('inbox_messages') }}">Profile</a>
 							</li>
 							<li>
-								<a class="dropdown-item" href="index.php?page=edit-user-profile">Settings</a>
+								<a class="dropdown-item" href="{{ path('inbox_messages') }}">Settings</a>
 							</li>
 							<li>
 								<hr class="dropdown-divider"/>

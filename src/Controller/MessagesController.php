@@ -16,37 +16,46 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/**
+ * @Route("/messages")
+ */
 class MessagesController extends AbstractController
 {
-    #[Route('/', name: 'messages')]
+    /**
+     * @Route("/", name="messages_index")
+     */
     public function index(): Response
     {
         return $this->render('messages/index.html.twig', [
             'controller_name' => 'Messages Controller',
         ]);
     }
-    #[Route('/inbox', name: 'inbox_messages')]
+    /**
+     * @Route("/inbox", name="inbox_messages")
+     */
     public function inbox(MessagesRepository $messagesRepository): Response
     {
-        $number = random_int(0, 100);
         $messages = $messagesRepository
             ->findBy(
                 ['FromUserId' => '2']
             );
         return $this->render('messages/inbox.html.twig', [
             'controller_name' => 'Inbox Controller',
-            'number' => $number,
             'messages' => $messages,
         ]);
     }
-    #[Route('/outbox', name: 'outbox_messages')]
+    /**
+     * @Route("/outbox", name="outbox_messages")
+     */
     public function outbox(): Response
     {
         return $this->render('messages/outbox.html.twig', [
             'controller_name' => 'MessagesController',
         ]);
     }
-    #[Route('/info_message/{id}', name: 'info_message')]
+    /**
+     * @Route("/info_message/{id}", name="info_message")
+     */
     public function infoMessage(int $id, MessagesRepository $messagesRepository): Response
     {
         // $message = $doctrine->getRepository(Messages::class)->find($id);
@@ -65,26 +74,31 @@ class MessagesController extends AbstractController
             // 'message_time' => $message->getTimestamp(),
         ]);
     }
-    #[Route('/new_message', name: 'new_message')]
+    /**
+     * @Route("/new_message", name="new_message")
+     */
     public function newMessage(ManagerRegistry $doctrine, ValidatorInterface $validator, Request $request): Response
     {
-
+        //Agregar date al mensaje, no pedirlo en el form
         $date = new \DateTime('@' . strtotime('now'));
 
         $entityManager = $doctrine->getManager();
 
         $message = new Messages();
-        
+
         $form = $this->createForm(SendMessageType::class, $message);
 
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $message = $form->getData();
 
-            // ... perform some action, such as saving the task to the database
+            // tell Doctrine you want to (eventually) save the Message (no queries yet)
+            $entityManager->persist($message);
 
-            return $this->redirectToRoute('inbox');
+            // actually executes the queries (i.e. the INSERT query)
+            $entityManager->flush();
+            return $this->redirectToRoute('inbox_messages');
         }
 
         return $this->renderForm('messages/new_messages.html.twig', [

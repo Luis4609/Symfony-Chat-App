@@ -1,54 +1,41 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Hello MessagesController
-
-
+	Inbox
 {% endblock %}
 
 {% block body %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-	</style>
-
-	<div class="example-wrapper">
-		<h1>
-			Hello
-			{{ controller_name }}
-		</h1>
-		{% for message in messages %}
-			<a href="{{ path('info_message', {'id': message.id}) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-				{# <img src="#" alt="Avatar de usuario" width="32" height="32" class="rounded-circle flex-shrink-0"/> #}
-				<div class="d-flex gap-2 w-100 justify-content-between">
-					<div>
-						<h6 class="mb-0">
-							{{ message.fromuserid }}</h6>
-						<p class="mb-0 opacity-75">
-							{{ message.text }}
-						</p>
+{# añadir css para list-group #}
+	<div class="list-group">
+		<h2> Inbox
+			<i class="fas fa-inbox"></i>
+		</h2>
+		<div class="messages">
+			{% for message in messages %}
+				<a
+					href="{{ path('info_message', {'id': message.id}) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+					{# <img src="#" alt="Avatar de usuario" width="32" height="32" class="rounded-circle flex-shrink-0"/> #}
+					<div class="d-flex gap-2 w-100 justify-content-between">
+						<div>
+							<h6 class="mb-0">
+								{{ message.fromuserid }}</h6>
+							<p class="mb-0 opacity-75">
+								{{ message.text }}
+							</p>
+						</div>
+						<small class="opacity-50 text-nowrap">
+							{{ message.timestamp|date("H:i:s m/d/Y ") }}</small>
 					</div>
-					<small class="opacity-50 text-nowrap">
-						{{ message.timestamp|date("H:i:s m/d/Y ") }}</small>
-				</div>
-				{% if message.isread == 0 %}
-					<i class="far fa-check-square"></i>
-				{% endif %}
-				<i class="fas fa-check-square"></i>
+					{% if message.isread == 0 %}
+						<i class="far fa-check-square"></i>
+					{% endif %}
+					<i class="fas fa-check-square"></i>
+				</a>
+			{% endfor %}
+
+			<a href="{{ path('new_message') }}" class="btn btn-success">New message</a>
+			<a href="{{ path('users_index') }}" class="btn btn-primary">Check users
 			</a>
-
-
-		{% endfor %}
-
-		<a href="new_message" class="btn btn-success">
-			New message
-		</a>
-		<a href="users" class="btn btn-primary">
-		Check users
-	</a>
+		</div>
 	</div>
 {% endblock %}

@@ -22,6 +22,7 @@
         "symfony/flex": "^2",
         "symfony/form": "6.0.*",
         "symfony/framework-bundle": "6.0.*",
+        "symfony/google-mailer": "6.0.*",
         "symfony/http-client": "6.0.*",
         "symfony/intl": "6.0.*",
         "symfony/mailer": "6.0.*",
@@ -43,6 +44,7 @@
         "symfony/web-link": "6.0.*",
         "symfony/webpack-encore-bundle": "^1.13",
         "symfony/yaml": "6.0.*",
+        "symfonycasts/verify-email-bundle": "^1.7",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
     },

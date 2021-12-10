@@ -11,10 +11,13 @@
 <div class="example-wrapper">
     <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/luism/Documents/Software/Symfony/chat-app/src/Controller/DefaultController.php'|file_link(0) }}">src/Controller/DefaultController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/luism/Documents/Software/Symfony/chat-app/templates/default/index.html.twig'|file_link(0) }}">templates/default/index.html.twig</a></code></li>
-    </ul>
+    <ul class="navbar-nav mr-auto">
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ path('messages_index') }}">Messages</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ path('users_index') }}">Users
+        </a>
+    </li>
 </div>
 {% endblock %}
