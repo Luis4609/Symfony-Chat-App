@@ -9,12 +9,37 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="list-group">
+		<h2> Outbox
+			<i class="fas fa-inbox"></i>
+		</h2>
+		<div class="messages">
+			{% for message in messages %}
+				<a
+					href="{{ path('info_message', {'id': message.id}) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+					{# <img src="#" alt="Avatar de usuario" width="32" height="32" class="rounded-circle flex-shrink-0"/> #}
+					<div class="d-flex gap-2 w-100 justify-content-between">
+						<div>
+							<h6 class="mb-0">
+								{{ message.fromuserid }}</h6>
+							<p class="mb-0 opacity-75">
+								{{ message.text }}
+							</p>
+						</div>
+						<small class="opacity-50 text-nowrap">
+							{{ message.timestamp|date("H:i:s m/d/Y ") }}</small>
+					</div>
+					{% if message.isread == 0 %}
+						<i class="far fa-check-square"></i>
+					{% endif %}
+					<i class="fas fa-check-square"></i>
+				</a>
+			{% endfor %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/luism/Documents/Software/Symfony/chat-app/src/Controller/MessagesController.php'|file_link(0) }}">src/Controller/MessagesController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/luism/Documents/Software/Symfony/chat-app/templates/messages/index.html.twig'|file_link(0) }}">templates/messages/index.html.twig</a></code></li>
-    </ul>
+			<a href="{{ path('new_message') }}" class="btn btn-success">New message</a>
+			<a href="{{ path('users_index') }}" class="btn btn-primary">Check users
+			</a>
+		</div>
+	</div>
 </div>
 {% endblock %}

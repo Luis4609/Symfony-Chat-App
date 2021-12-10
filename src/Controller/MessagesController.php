@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * @Route("/messages")
@@ -47,10 +48,14 @@ class MessagesController extends AbstractController
     /**
      * @Route("/outbox", name="outbox_messages")
      */
-    public function outbox(): Response
+    public function outbox(MessagesRepository $messagesRepository): Response
     {
+        $messages = $messagesRepository
+            ->findBy(
+                ['ToUserId' => '2']
+            );
         return $this->render('messages/outbox.html.twig', [
-            'controller_name' => 'MessagesController',
+            'messages' => $messages,
         ]);
     }
     /**
@@ -92,7 +97,17 @@ class MessagesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $message = $form->getData();
-
+            // $fromUserId = $session -> get(fromUserId);
+            // New message 
+            // $mymessage =  $_POST['message'];  --> getData
+            // $date = date('Y-m-d H:i:s');
+            // $data = [
+            //     'fromuserid' => $userId,   -->SESSION[user]
+            //     'touserid' => $touserid, --> getData
+            //     'mymessage' => $mymessage,  --> getData
+            //     'newdate' => $date,  --> $date = date('Y-m-d H:i:s'); se recoge la fecha cuando se ejecuta el POST
+            //     'attachfile'  => upload_file(false) --> getData
+            // ];
             // tell Doctrine you want to (eventually) save the Message (no queries yet)
             $entityManager->persist($message);
 
@@ -103,7 +118,6 @@ class MessagesController extends AbstractController
 
         return $this->renderForm('messages/new_messages.html.twig', [
             'form' => $form,
-            'controller_name' => 'MessagesController',
         ]);
     }
 }

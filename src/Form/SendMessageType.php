@@ -12,13 +12,12 @@ class SendMessageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('FromUserId')
+            // ->add('FromUserId')
             ->add('ToUserId')
             ->add('Text')
-            ->add('Timestamp')
-            ->add('IsRead')
-            ->add('AttachFile')
-        ;
+            // ->add('Timestamp')
+            // ->add('IsRead')
+            ->add('AttachFile');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
