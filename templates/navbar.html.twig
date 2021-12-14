@@ -1,12 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MessagesController!{% endblock %}
-
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block header %}
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
 			<div class="container-fluid d-grid row" style="grid-template-columns: 1fr 4fr 1fr">
@@ -27,6 +21,27 @@
 							<a class="nav-link" href="{{ path('new_message') }}">New message</a>
 						</li>
 					</ul>
+				</div>
+				<div class="d-flex ">
+					<div class="flex-shrink-0 dropdown mx-auto">
+						<a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+							<img src="$userAvatar" alt="mdo" width="32" height="32" class="rounded-circle"/>
+						</a>
+						<ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+							<li>
+								<a class="dropdown-item" href="{{ path('inbox_messages') }}">Profile</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('inbox_messages') }}">Settings</a>
+							</li>
+							<li>
+								<hr class="dropdown-divider"/>
+							</li>
+							<li>
+								<a class="dropdown-item" href="index.php">Sign out</a>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</nav>

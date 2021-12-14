@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
+{# {% extends 'navbar.html.twig' %} #}
 
-{% block title %}Hello MessagesController!{% endblock %}
+{% block title %}Info message{% endblock %}
 
 {% block body %}
 <style>
@@ -9,14 +10,11 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-    <h4>Hello {{ message }}</h4>
-    {# <h4>Hello {{ message_time }}</h4> #}
+    <h1>Info del mensaje  {{ message.id }} </h1>
+    <h2> From: {{ message.fromUserId }}</h2>
+    <h2> To: {{ message.toUserId }}</h2>
+    <h4>Message: {{ message.text }}</h4>
+    <h4>Time: {{ message.timestamp|date("H:i:s m/d/Y ") }}</h4>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/luism/Documents/Software/Symfony/chat-app/src/Controller/MessagesController.php'|file_link(0) }}">src/Controller/MessagesController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/luism/Documents/Software/Symfony/chat-app/templates/messages/index.html.twig'|file_link(0) }}">templates/messages/index.html.twig</a></code></li>
-    </ul>
 </div>
 {% endblock %}

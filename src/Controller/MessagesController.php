@@ -36,9 +36,11 @@ class MessagesController extends AbstractController
      */
     public function inbox(MessagesRepository $messagesRepository): Response
     {
+                /** @var \App\Entity\User $user */
+                $user = $this->getUser();
         $messages = $messagesRepository
             ->findBy(
-                ['FromUserId' => '2']
+                ['FromUserId' => $user->getId()]
             );
         return $this->render('messages/inbox.html.twig', [
             'controller_name' => 'Inbox Controller',
@@ -70,7 +72,7 @@ class MessagesController extends AbstractController
         }
         return $this->render('messages/info_message.html.twig', [
             'controller_name' => 'Inbox Controller',
-            'message' => $message->getText(),
+            'message' => $message,
             // 'message_time' => $message->getTimestamp(),
         ]);
     }
