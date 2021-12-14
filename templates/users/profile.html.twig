@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UsersController!
+{% endblock %}
+
+{% block body %}
+	<div class="list-group">
+		<div class="card mb-3 border-light" style="max-width: 540px;">
+			<div class="row g-0">
+				<div class="col-md-4">
+					<img src="<?= $user['UserAvatar'] ?>" class="img-fluid rounded-start" alt="...">
+				</div>
+				<div class="col-md-8">
+					<div class="card-body">
+						<h5 class="card-title">{{ user.id }}</h5>
+						<p class="card-text">Email:
+							{{ user.email }}</p>
+						{# <p class="card-text">Age:
+													<?= $user['Age'] ?></p>
+												<p class="card-text">Address:
+													<?= $user['Address'] ?></p> #}
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<hr class="mb-4">
+		<a href="{{ path('users_edit_profile', {'id': user.id}) }}" class="btn btn-primary btn-lg btn-block <?= $isDisabledEdit ?>">
+			Edit profile
+		</a>
+		{# <a href="index.php?page=new-message&touserid=<?= $user['UserId'] ?>&tousername=<?= $user['UserName'] ?>" class="btn btn-primary btn-lg btn-block <?= $isDisabled ?>">Send a message</a> #}
+	</div>
+
+{% endblock %}

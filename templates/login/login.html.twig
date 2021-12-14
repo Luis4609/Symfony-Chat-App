@@ -1,27 +1,25 @@
-{# ... #}
-{# this tag only applies to the forms defined in this template #}
-{# {% form_theme form 'bootstrap_5_layout.html.twig' %}
-
-{% block body %}
-    <h1>User Sign Up:</h1>
-    {{ form(form) }}
-{% endblock %} #}
 {% extends 'base.html.twig' %}
+
 {% block body %}
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+	{% if error %}
+		<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+	{% endif %}
+	<main class="form-signin">
+		<form action="{{ path('login') }}" method="post">
+			<h1 class="h3 mb-3 fw-normal">Login</h1>
+			<div class="form-floating">
+				<label for="username">Email:</label>
+				<input type="email" id="username" name="_username" value="{{ last_username }}" class="form-control" require/>
 
-    <form action="{{ path('login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}"/>
+			</div>
+			<div class="form-floating">
+				<label for="password">Password:</label>
+				<input type="password" id="password" name="_password" class="form-control" require/>
+			</div>
+			{# If you want to control the URL the user is redirected to on success TODO #}
+			<input type="hidden" name="_target_path" value="{{ path('users_index') }}"/>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password"/>
-
-        {# If you want to control the URL the user is redirected to on success TODO #}
-        <input type="hidden" name="/users" value="/account"/>
-
-        <button type="submit">login</button>
-    </form>
+			<button type="submit" class="w-100 btn btn-lg btn-primary">Login</button>
+		</form>
+	</main>
 {% endblock %}

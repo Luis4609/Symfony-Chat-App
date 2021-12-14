@@ -18,12 +18,18 @@ class Messages
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $FromUserId;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $ToUserId;
 
@@ -52,28 +58,24 @@ class Messages
         return $this->id;
     }
 
-    public function getFromUserId(): ?int
+    public function getFromUserId(): ?string
     {
         return $this->FromUserId;
     }
 
-    public function setFromUserId(int $FromUserId): self
+    public function setFromUserId(?string $FromUserId): void
     {
         $this->FromUserId = $FromUserId;
-
-        return $this;
     }
 
-    public function getToUserId(): ?int
+    public function getToUserId(): ?string
     {
         return $this->ToUserId;
     }
 
-    public function setToUserId(int $ToUserId): self
+    public function setToUserId(?string $toUserId): void
     {
-        $this->ToUserId = $ToUserId;
-
-        return $this;
+        $this->ToUserId = $toUserId;
     }
 
     public function getText(): ?string

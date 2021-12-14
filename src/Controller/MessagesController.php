@@ -61,16 +61,11 @@ class MessagesController extends AbstractController
     /**
      * @Route("/info_message/{id}", name="info_message")
      */
-    public function infoMessage(int $id, MessagesRepository $messagesRepository): Response
+    public function infoMessage(Messages $message): Response
     {
-        // $message = $doctrine->getRepository(Messages::class)->find($id);
-
-        $message = $messagesRepository
-            ->find($id);
-
         if (!$message) {
             throw $this->createNotFoundException(
-                'No product found for id ' . $id
+                'No product found for id ' . $message->getId()
             );
         }
         return $this->render('messages/info_message.html.twig', [
@@ -84,9 +79,11 @@ class MessagesController extends AbstractController
      */
     public function newMessage(ManagerRegistry $doctrine, ValidatorInterface $validator, Request $request): Response
     {
-        //Agregar date al mensaje, no pedirlo en el form
+        //Current date for the message
         $date = new \DateTime('@' . strtotime('now'));
 
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
         $entityManager = $doctrine->getManager();
 
         $message = new Messages();
@@ -96,23 +93,21 @@ class MessagesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $message = $form->getData();
-            // $fromUserId = $session -> get(fromUserId);
-            // New message 
-            // $mymessage =  $_POST['message'];  --> getData
-            // $date = date('Y-m-d H:i:s');
-            // $data = [
-            //     'fromuserid' => $userId,   -->SESSION[user]
-            //     'touserid' => $touserid, --> getData
-            //     'mymessage' => $mymessage,  --> getData
-            //     'newdate' => $date,  --> $date = date('Y-m-d H:i:s'); se recoge la fecha cuando se ejecuta el POST
-            //     'attachfile'  => upload_file(false) --> getData
-            // ];
-            // tell Doctrine you want to (eventually) save the Message (no queries yet)
-            $entityManager->persist($message);
 
-            // actually executes the queries (i.e. the INSERT query)
+            // $userId = $user->getId();
+            //Build the message and save it in the database
+            // $message = $form->getData();
+            $message->setToUserId($form->getData('ToUserId'));
+            $message->setText($form->getData('Text'));
+            $message->setAttachFile($form->getData('AttachFile'));
+
+            $message->setFromUserId($user->getId());
+            $message->setTimestamp($date);
+            $message->setIsRead(false);
+
+            $entityManager->persist($message);
             $entityManager->flush();
+
             return $this->redirectToRoute('inbox_messages');
         }
 

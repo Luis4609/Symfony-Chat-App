@@ -14,7 +14,7 @@
 				<div class="collapse navbar-collapse justify-content-center" id="navbarCollapse">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item active">
-							<a class="nav-link" href="{{ path('inbox_messages') }}">Messages</a>
+							<a class="nav-link" href="{{ path('messages_index') }}">Messages</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="{{ path('inbox_messages') }}">Groups</a>
@@ -24,6 +24,9 @@
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="{{ path('inbox_messages') }}">Friend Requests</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('users_profile', {'id': user.id}) }}">Profile</a>
 						</li>
 					</ul>
 				</div>
