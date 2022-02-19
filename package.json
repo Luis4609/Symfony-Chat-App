@@ -17,5 +17,9 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
+    },
+    "dependencies": {
+        "express": "^4.17.3",
+        "socket.io": "^4.4.1"
     }
 }
