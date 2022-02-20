@@ -12,3 +12,5 @@ import './styles/sign-in.css';
 
 // start the Stimulus application
 import './bootstrap';
+
+import 'socket.io'

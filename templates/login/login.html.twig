@@ -7,19 +7,21 @@
 	<main class="form-signin">
 		<form action="{{ path('login') }}" method="post">
 			<h1 class="h3 mb-3 fw-normal">Login</h1>
-			<div class="form-floating">
-				<label for="username">Email:</label>
+			<div class="mb-3">
+				<label for="username" class="form-label">Email</label>
 				<input type="email" id="username" name="_username" value="{{ last_username }}" class="form-control" require/>
-
+				<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
 			</div>
-			<div class="form-floating">
-				<label for="password">Password:</label>
+			<div class="mb-3">
+				<label for="password" class="form-label">Password</label>
 				<input type="password" id="password" name="_password" class="form-control" require/>
 			</div>
 			{# If you want to control the URL the user is redirected to on success TODO #}
 			<input type="hidden" name="_target_path" value="{{ path('users_index') }}"/>
 
 			<button type="submit" class="w-100 btn btn-lg btn-primary">Login</button>
+			<a class="w-100 btn btn btn-secondary" href="{{ path('app_register') }}" role="button" style="margin-top: 5px;">Register now</a>
+			<p class="mt-5 mb-3 text-muted">&copy; 2021-2022</p>
 		</form>
 	</main>
-{% endblock %}
+</body></html></form></main>{% endblock %}

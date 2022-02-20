@@ -73,7 +73,7 @@ class Messages
         return $this->ToUserId;
     }
 
-    public function setToUserId(?string $toUserId): void
+    public function setToUserId(string $toUserId): void
     {
         $this->ToUserId = $toUserId;
     }
