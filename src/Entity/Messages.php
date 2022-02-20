@@ -18,8 +18,8 @@ class Messages
     private $id;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var int
+     * @ORM\Column(type="integer", length=255, nullable=true)
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -58,12 +58,12 @@ class Messages
         return $this->id;
     }
 
-    public function getFromUserId(): ?string
+    public function getFromUserId(): ?int
     {
         return $this->FromUserId;
     }
 
-    public function setFromUserId(?string $FromUserId): void
+    public function setFromUserId(?int $FromUserId): void
     {
         $this->FromUserId = $FromUserId;
     }

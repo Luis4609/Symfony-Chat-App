@@ -1,24 +1,30 @@
-{% extends 'base.html.twig' %}
+{% extends 'navbar.html.twig' %}
 
-{% block title %}Hello MessagesController!{% endblock %}
+{% block title %}MessagesController!
+{% endblock %}
+
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+	
+	
 	<header>
-		<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
-			<div class="container-fluid d-grid row" style="grid-template-columns: 1fr 4fr 1fr">
+		<nav class="navbar  navbar-dark fixed-top bg-dark">
+			<div class="container d-grid row" style="grid-template-columns: 1fr 4fr 1fr">
 				<a class="navbar-brand" href="#">Messages</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse justify-content-center" id="navbarCollapse">
+				<div class=" navbar justify-content-center">
 					<ul class="navbar-nav mr-auto">
-						<li class="nav-item active">
-							<a class="nav-link" href="{{ path('inbox_messages') }}">Inbox</a>
-						</li>
 						<li class="nav-item active">
 							<a class="nav-link" href="{{ path('outbox_messages') }}">Outbox
 							</a>
@@ -31,4 +37,69 @@
 			</div>
 		</nav>
 	</header>
+
+	<div class="list-group">
+		<h2>
+			Inbox
+			<i class="fas fa-inbox"></i>
+		</h2>
+		<div class="messages">
+			{% for message in messages %}
+				<a
+					href="{{ path('info_message', {'id': message.id}) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3 mb-1" aria-current="true">
+					{# <img src="#" alt="Avatar de usuario" width="32" height="32" class="rounded-circle flex-shrink-0"/> #}
+					<div class="d-flex gap-2 w-100 justify-content-between">
+						<div>
+							<h6 class="mb-0">
+								{{ message.fromuserid }}</h6>
+							<p class="mb-0 opacity-75">
+								{{ message.text }}
+							</p>
+						</div>
+						<small class="opacity-50 text-nowrap">
+							{{ message.timestamp|date("H:i:s m/d/Y ") }}</small>
+					</div>
+					{% if message.isread == 0 %}
+						<i class="far fa-check-square"></i>
+					{% endif %}
+					<i class="fas fa-check-square"></i>
+				</a>
+			{% endfor %}
+
+		</div>
+		<div class="">
+			<a href="{{ path('new_message') }}" class="btn btn-primary">New message</a>
+		</div>
+	</div>
+	<div>
+		<button id="button">Pulsa
+		</button>
+		<div id="users"></div>
+	</div>
+	<script>
+		document.getElementById('button').addEventListener('click', loadMessages);
+
+// Load Github users
+function loadMessages() {
+var xhr = new XMLHttpRequest();
+xhr.open('GET', 'https://api.github.com/users', true);
+
+xhr.onload = function () {
+if (this.status == 200) {
+var users = JSON.parse(this.responseText);
+
+console.log(users);
+
+var output = '';
+
+for (var i in users) {
+output += '<div class="user">' + '<img src="' + users[i].avatar_url + '" width="70" height="70">' + '<ul>' + '<li>ID: ' + users[i].id + '</li>' + '<li>Login:' + users[i].login + '</li>' + '</ul>' + '</div>';
+}
+
+document.getElementById('users').innerHTML = output;
+}
+}
+xhr.send();
+}
+	</script>
 {% endblock %}

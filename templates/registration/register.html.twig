@@ -21,4 +21,11 @@
 		<button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
 		{{ form_end(registrationForm) }}
 	</main>
+
+	{# read and display just one flash message type #}
+	{% for message in app.flashes('Good register') %}
+		<div class="flash-notice">
+			{{ message }}
+		</div>
+	{% endfor %}
 {% endblock %}

@@ -22,39 +22,78 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class MessagesController extends AbstractController
 {
+
     /**
      * @Route("/", name="messages_index")
      */
-    public function index(): Response
+    public function index(MessagesRepository $messagesRepository): Response
     {
+
+        if (isset($_GET['errorMessage'])) {
+            return new Response(
+                '<html><body> ' . $_GET['errorMessage'] . '</body></html>'
+            );
+        }
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+
+        $messages = $messagesRepository
+            ->findBy(
+                ['ToUserId' => $user->getId()]
+            );
         return $this->render('messages/index.html.twig', [
-            'controller_name' => 'Messages Controller',
+            'messages' => $messages,
         ]);
     }
+    // /**
+    //  * @Route("/{errorMessage}", name="messages_error")
+    //  */
+    // public function errorMessages(MessagesRepository $messagesRepository): Response
+    // {
+
+    //     if (isset($_GET['errorMessage'])) {
+    //         return new Response(
+    //             '<html><body> ' . $_GET['errorMessage'] . '</body></html>'
+    //         );
+    //     }
+    //     /** @var \App\Entity\User $user */
+    //     $user = $this->getUser();
+    //     $messages = $messagesRepository
+    //         ->findBy(
+    //             ['FromUserId' => $user->getId()]
+    //         );
+    //     return $this->render('messages/index.html.twig', [
+    //         'messages' => $messages,
+    //     ]);
+    // }
     /**
      * @Route("/inbox", name="inbox_messages")
      */
     public function inbox(MessagesRepository $messagesRepository): Response
     {
-                /** @var \App\Entity\User $user */
-                $user = $this->getUser();
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
         $messages = $messagesRepository
             ->findBy(
-                ['FromUserId' => $user->getId()]
+                ['ToUserId' => $user->getId()]
             );
-        return $this->render('messages/inbox.html.twig', [
-            'controller_name' => 'Inbox Controller',
-            'messages' => $messages,
-        ]);
+        //Convert to JSON
+        $jsonMessages = json_encode($messages);
+
+        // creates a simple Response with a 200 status code (the default)
+        $response = new Response($jsonMessages, Response::HTTP_OK);
+        return $response;
     }
     /**
      * @Route("/outbox", name="outbox_messages")
      */
     public function outbox(MessagesRepository $messagesRepository): Response
     {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
         $messages = $messagesRepository
             ->findBy(
-                ['ToUserId' => '2']
+                ['FromUserId' => $user->getId()]
             );
         return $this->render('messages/outbox.html.twig', [
             'messages' => $messages,
@@ -76,6 +115,7 @@ class MessagesController extends AbstractController
             // 'message_time' => $message->getTimestamp(),
         ]);
     }
+
     /**
      * @Route("/new_message", name="new_message")
      */
@@ -90,31 +130,32 @@ class MessagesController extends AbstractController
 
         $message = new Messages();
 
-        $form = $this->createForm(SendMessageType::class, $message);
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-        $form->handleRequest($request);
+            if ($user->getId() == $_POST['username']) {
+                return $this->redirectToRoute('messages_error?errorMessage=Cant send this message');
+            }
+            //DATA FROM FORM
+            $message->setToUserId($_POST['username']);
+            $message->setText($_POST['message']);
+            // $message->setAttachFile($_POST['fileToUpload']);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            // $userId = $user->getId();
-            //Build the message and save it in the database
-            // $message = $form->getData();
-            $message->setToUserId($form->getData('ToUserId'));
-            $message->setText($form->getData('Text'));
-            $message->setAttachFile($form->getData('AttachFile'));
-
+            //Data that is default
             $message->setFromUserId($user->getId());
             $message->setTimestamp($date);
             $message->setIsRead(false);
 
+            //Save new message in database
             $entityManager->persist($message);
             $entityManager->flush();
 
-            return $this->redirectToRoute('inbox_messages');
+
+
+            return $this->redirectToRoute('messages_index');
         }
 
         return $this->renderForm('messages/new_messages.html.twig', [
-            'form' => $form,
+            // 'form' => $form,
         ]);
     }
 }
