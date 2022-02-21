@@ -37,14 +37,18 @@ class UsersController extends AbstractController
     //     return $this->render('users/login.html.twig', [
     //     ]);
     // }
+
+    //TODO: get friends ADD: friends to the database
     /**
      * @Route("/friends", name="users_friends")
      */
     public function friends(UserRepository $userRepository): Response
     {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
         $friendList = $userRepository
             ->findBy(
-                ['email' => 'luis@gmail.com']
+                ['email' => $user->getId()]
             );
         return $this->render('users/friends.html.twig', [
             'friends' => $friendList,
@@ -58,6 +62,9 @@ class UsersController extends AbstractController
     {
         // $package = new Package(new StaticVersionStrategy('v1'));
         // $package->getUrl('/abstract_blue.png');
+
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
 
         return $this->render('users/profile.html.twig', [
             'user' => $user,

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Messages;
 use App\Form\SendMessageType;
 use App\Repository\MessagesRepository;
+use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Message;
@@ -45,27 +46,9 @@ class MessagesController extends AbstractController
             'messages' => $messages,
         ]);
     }
-    // /**
-    //  * @Route("/{errorMessage}", name="messages_error")
-    //  */
-    // public function errorMessages(MessagesRepository $messagesRepository): Response
-    // {
 
-    //     if (isset($_GET['errorMessage'])) {
-    //         return new Response(
-    //             '<html><body> ' . $_GET['errorMessage'] . '</body></html>'
-    //         );
-    //     }
-    //     /** @var \App\Entity\User $user */
-    //     $user = $this->getUser();
-    //     $messages = $messagesRepository
-    //         ->findBy(
-    //             ['FromUserId' => $user->getId()]
-    //         );
-    //     return $this->render('messages/index.html.twig', [
-    //         'messages' => $messages,
-    //     ]);
-    // }
+    // TODO: check isRead and Files/ Add file upload
+    // TODO: ADD BOOSTRAP ICONS
     /**
      * @Route("/inbox", name="inbox_messages")
      */
@@ -119,7 +102,7 @@ class MessagesController extends AbstractController
     /**
      * @Route("/new_message", name="new_message")
      */
-    public function newMessage(ManagerRegistry $doctrine, ValidatorInterface $validator, Request $request): Response
+    public function newMessage(ManagerRegistry $doctrine, ValidatorInterface $validator, Request $request, UserRepository $userRepository): Response
     {
         //Current date for the message
         $date = new \DateTime('@' . strtotime('now'));
@@ -135,6 +118,15 @@ class MessagesController extends AbstractController
             if ($user->getId() == $_POST['username']) {
                 return $this->redirectToRoute('messages_error?errorMessage=Cant send this message');
             }
+
+            // * Get id of the user from the name
+            // TODO: add name field to user
+            // $toUserId = $userRepository
+            // ->findBy(
+            //     ['UserName' => $_POST['username']]
+            // );
+            // $message->setToUserId($toUserId->getId());
+
             //DATA FROM FORM
             $message->setToUserId($_POST['username']);
             $message->setText($_POST['message']);

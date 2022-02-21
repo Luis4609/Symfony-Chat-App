@@ -25,4 +25,6 @@ class LoginController extends AbstractController
             'error'         => $error,
         ]);
     }
+
+    //TODO: add recovery password https://symfony.com/doc/current/security/passwords.html#reset-password
 }
