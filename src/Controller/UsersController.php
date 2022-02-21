@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Asset\Package;
+use Symfony\Component\Asset\VersionStrategy\StaticVersionStrategy;
 
 /**
  * @Route("/users")
@@ -54,8 +56,12 @@ class UsersController extends AbstractController
      */
     public function profile(User $user): Response
     {
+        // $package = new Package(new StaticVersionStrategy('v1'));
+        // $package->getUrl('/abstract_blue.png');
+
         return $this->render('users/profile.html.twig', [
             'user' => $user,
+            // 'url' => $package,
         ]);
     }
     /**

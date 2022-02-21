@@ -149,8 +149,6 @@ class MessagesController extends AbstractController
             $entityManager->persist($message);
             $entityManager->flush();
 
-
-
             return $this->redirectToRoute('messages_index');
         }
 

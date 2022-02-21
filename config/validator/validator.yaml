@@ -1,0 +1,8 @@
+# config/validator/validation.yaml
+App\Entity\Messages:
+    properties:
+        AttachFile:
+            - File:
+                maxSize: 1024k
+                mimeTypes: [application/pdf, application/x-pdf]
+                mimeTypesMessage: Please upload a valid PDF
