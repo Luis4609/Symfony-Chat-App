@@ -43,7 +43,7 @@ class MessagesController extends AbstractController
         $messages = $messagesRepository->createQueryBuilder('m')
             ->andWhere("m.ToUserId = :val")
             ->setParameter('val', $user->getId())
-            ->orderBy('m.timestamp', 'DESC')
+            ->orderBy('m.Timestamp', 'DESC')
             ->getQuery()
             ->getResult();
 
@@ -90,7 +90,7 @@ class MessagesController extends AbstractController
         $messages = $messagesRepository->createQueryBuilder('m')
             ->andWhere("m.FromUserId = :val")
             ->setParameter('val', $user->getId())
-            ->orderBy('m.timestamp', 'DESC')
+            ->orderBy('m.Timestamp', 'DESC')
             ->getQuery()
             ->getResult();
 

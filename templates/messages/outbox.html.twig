@@ -1,29 +1,35 @@
-{% extends 'base.html.twig' %}
+{% extends 'navbar.html.twig' %}
 
-{% block title %}Hello MessagesController!
+{% block title %}
+	Outbox
 {% endblock %}
 
 {% block body %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
-
-	<div class="example-wrapper">
-		<div class="list-group">
-			<h2>
-				Outbox
-				<i class="fas fa-inbox"></i>
-			</h2>
-			<div class="messages mb-2">
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+			<div class="container-fluild d-grid row" style="grid-template-columns: 1fr 3fr">
+				<a class="navbar-brand col col-lg-2" href="">Messages</a>
+				<div class="justify-content-md-center col">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item active">
+							<a class="nav-link" href="{{ path('messages_index') }}">Inbox
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('new_message') }}">New message</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('new_message_participants') }}">New message for multiple</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<main class="container">
+		<div class="list-group ">
+			<h2>Outbox</h2>
+			<div class="mb-2 overflow-scroll">
 				{% for message in messages %}
 					<a
 						href="{{ path('info_message', {'id': message.id}) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
@@ -51,9 +57,8 @@
 						{% endif %}
 					</a>
 				{% endfor %}
-
 			</div>
 			<a href="{{ path('new_message') }}" class="btn btn-primary">New message</a>
 		</div>
-	</div>
+	</main>
 {% endblock %}
