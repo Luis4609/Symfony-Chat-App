@@ -12,6 +12,7 @@
 		</h2>
 		<div class="messages">
 			{% for message in messages %}
+			
 				<a
 					href="{{ path('info_message', {'id': message.id}) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
 					{# <img src="#" alt="Avatar de usuario" width="32" height="32" class="rounded-circle flex-shrink-0"/> #}
@@ -26,7 +27,7 @@
 						<small class="opacity-50 text-nowrap">
 							{{ message.timestamp|date("H:i:s m/d/Y ") }}</small>
 					</div>
-					{% if message.isread == 0 %}
+					{% if message.isread %}
 						<i class="bi bi-bookmark-check"></i>
 					{% endif %}
 					<i class="bi bi-bookmark-check-fill"></i>

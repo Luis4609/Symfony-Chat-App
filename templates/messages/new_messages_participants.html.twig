@@ -1,27 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New message
+{% block title %}New message Participants
 {% endblock %}
 
 {% block body %}
 
 	<main class="container">
-		<h2>New Message</h2>
+		<h2>New Message for multiple participants</h2>
 		<form class="needs-validation" method="post" novalidate enctype="multipart/form-data">
 			<div class="col-md-6 mb-3">
 				<label for="username">To:
 				</label>
 				<!-- <input type="text" class="form-control" id="username" name="username" placeholder="" value="<?= $touseridurl ?>" required hidden> -->
-				<input type="text" class="form-control" id="username" name="username" list="contacts" placeholder="" required>
+				{# <input type="text" class="form-control" id="username" name="username" list="contacts" placeholder="" required> #}
 				<div class="invalid-feedback">
 					Valid user name is required.
 				</div>
-
-				<datalist id="contacts">
+				<select class="form-select" multiple aria-label="multiple select example" name="messageParticipants[]" id="messageParticipants">
 					{% for user in users %}
-						<option value={{user.email}}></option>
+						{% if app.user.email != user.email %}
+							<option value={{user.email}}>{{user.email}}</option>
+						{% endif %}
 					{% endfor %}
-				</datalist>
+				</select>
 			</div>
 			<div class="col-md-6 mb-3">
 				<label for="message">Message</label>

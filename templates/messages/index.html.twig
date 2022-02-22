@@ -5,20 +5,7 @@
 
 
 {% block body %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
-	
-	
+
 	<header>
 		<nav class="navbar  navbar-dark fixed-top bg-dark">
 			<div class="container d-grid row" style="grid-template-columns: 1fr 4fr 1fr">
@@ -32,6 +19,9 @@
 						<li class="nav-item">
 							<a class="nav-link" href="{{ path('new_message') }}">New message</a>
 						</li>
+							<li class="nav-item">
+							<a class="nav-link" href="{{ path('new_message_participants') }}">New message for multiple</a>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -44,12 +34,19 @@
 			<i class="fas fa-inbox"></i>
 		</h2>
 		<div class="messages">
+
 			{% for message in messages %}
 				<a
 					href="{{ path('info_message', {'id': message.id}) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3 mb-1" aria-current="true">
 					{# <img src="#" alt="Avatar de usuario" width="32" height="32" class="rounded-circle flex-shrink-0"/> #}
 					<div class="d-flex gap-2 w-100 justify-content-between">
 						<div>
+							{% for user in users %}
+								{% if user.id == message.fromuserid %}
+									<h6 class="mb-0">
+										{{ user.email }}</h6>
+								{% endif %}
+							{% endfor %}
 							<h6 class="mb-0">
 								{{ message.fromuserid }}</h6>
 							<p class="mb-0 opacity-75">
@@ -61,8 +58,9 @@
 					</div>
 					{% if message.isread == 0 %}
 						<i class="far fa-check-square"></i>
+					{% else %}
+						<i class="fas fa-check-square"></i>
 					{% endif %}
-					<i class="fas fa-check-square"></i>
 				</a>
 			{% endfor %}
 
