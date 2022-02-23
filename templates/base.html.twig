@@ -2,9 +2,9 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		  <meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<title>
-			{% block title %}Welcome!
-			{% endblock %}
+			{% block title %}Chat application{% endblock %}
 		</title>
 		<link
 		rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
@@ -21,7 +21,7 @@
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
-	<body>
+	<body id="{% block body_id %}{% endblock %}">
         {# Put the header in a file #}
 		{# {% block header %}{% endblock %} #}
 		{% block body %}{% endblock %}

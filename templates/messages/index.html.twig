@@ -23,6 +23,11 @@
 						<li class="nav-item">
 							<a class="nav-link" href="{{ path('new_message_participants') }}">New message for multiple</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('messages_search') }}">Search
+								<i class="fa fa-search"></i>
+							</a>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -51,7 +56,7 @@
 							<h6 class="mb-0">
 								{{ message.fromuserid }}</h6>
 							<p class="mb-0 opacity-75">
-								{{ message.text }}
+								{{ message.text|slice(0, 10) }}
 							</p>
 						</div>
 						<small class="opacity-50 text-nowrap">
@@ -75,30 +80,4 @@
 		</button>
 		<div id="users"></div>
 	</div>
-	<script>
-		document.getElementById('button').addEventListener('click', loadMessages);
-
-// Load Github users
-function loadMessages() {
-var xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://api.github.com/users', true);
-
-xhr.onload = function () {
-if (this.status == 200) {
-var users = JSON.parse(this.responseText);
-
-console.log(users);
-
-var output = '';
-
-for (var i in users) {
-output += '<div class="user">' + '<img src="' + users[i].avatar_url + '" width="70" height="70">' + '<ul>' + '<li>ID: ' + users[i].id + '</li>' + '<li>Login:' + users[i].login + '</li>' + '</ul>' + '</div>';
-}
-
-document.getElementById('users').innerHTML = output;
-}
-}
-xhr.send();
-}
-	</script>
 {% endblock %}

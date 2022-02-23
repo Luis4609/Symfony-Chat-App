@@ -44,7 +44,7 @@
 									{% endif %}
 								{% endfor %}
 								<p class="mb-0 opacity-75">
-									{{ message.text }}
+									{{ message.text|slice(0, 10) }}
 								</p>
 							</div>
 							<small class="opacity-50 text-nowrap">

@@ -215,4 +215,33 @@ class MessagesController extends AbstractController
             'users' => $users,
         ]);
     }
+
+    /**
+     * @Route("/search", methods="GET", name="messages_search")
+     */
+    public function search(Request $request, MessagesRepository $messagesRepository): Response
+    {
+        $query = $request->query->get('q', '');
+        $limit = $request->query->get('l', 10);
+
+        if (!$request->isXmlHttpRequest()) {
+            return $this->render('messages/search.html.twig', ['query' => $query]);
+        }
+
+        $foundmessages = $messagesRepository->findBySearchQuery($query, $limit);
+
+        $results = [];
+        foreach ($foundmessages as $message) {
+            $results[] = [
+                'fromUserId' => htmlspecialchars($message->getFromUserId(), \ENT_COMPAT | \ENT_HTML5),
+                'toUserId' => htmlspecialchars($message->getToUserId(), \ENT_COMPAT | \ENT_HTML5),
+                'text' => htmlspecialchars($message->getText(), \ENT_COMPAT | \ENT_HTML5),
+                'date' => $message->getTimestamp(),
+                'isRead' => htmlspecialchars($message->getIsRead(), \ENT_COMPAT | \ENT_HTML5),
+                'url' => $this->generateUrl('info_message', ['id' => $message->getId()]),
+            ];
+        }
+
+        return $this->json($results);
+    }
 }
