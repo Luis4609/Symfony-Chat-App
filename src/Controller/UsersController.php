@@ -29,15 +29,6 @@ class UsersController extends AbstractController
             'user' => $user,
         ]);
     }
-    // /**
-    //  * @Route("/login", name="login")
-    //  */
-    // public function login(): Response
-    // {
-    //     return $this->render('users/login.html.twig', [
-    //     ]);
-    // }
-
     //TODO: get friends ADD: friends to the database
     /**
      * @Route("/friends", name="users_friends")
@@ -46,12 +37,14 @@ class UsersController extends AbstractController
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
-        $friendList = $userRepository
-            ->findBy(
-                ['email' => $user->getId()]
-            );
+        // $friendList = $userRepository
+        //     ->findBy(
+        //         ['email' => $user->getId()]
+        //     );
+        $getAllUsers = $userRepository->findAll();
+
         return $this->render('users/friends.html.twig', [
-            'friends' => $friendList,
+            'contacts' => $getAllUsers,
         ]);
     }
 

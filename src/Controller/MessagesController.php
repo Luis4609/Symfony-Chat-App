@@ -35,11 +35,6 @@ class MessagesController extends AbstractController
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
-        // $messages = $messagesRepository
-        //     ->findBy(
-        //         ['ToUserId' => $user->getId()]
-        //     );
-
         $messages = $messagesRepository->createQueryBuilder('m')
             ->andWhere("m.ToUserId = :val")
             ->setParameter('val', $user->getId())
@@ -54,38 +49,19 @@ class MessagesController extends AbstractController
             'users' => $users
         ]);
     }
-
-    // /**
-    //  * @Route("/inbox", name="inbox_messages")
-    //  */
-    // public function inbox(MessagesRepository $messagesRepository): Response
-    // {
-    //     /** @var \App\Entity\User $user */
-    //     $user = $this->getUser();
-    //     $messages = $messagesRepository
-    //         ->findBy(
-    //             ['ToUserId' => $user->getId()]
-    //         );
-    //     //Convert to JSON
-    //     $jsonMessages = json_encode($messages);
-
-    //     // creates a simple Response with a 200 status code (the default)
-    //     $response = new Response($jsonMessages, Response::HTTP_OK);
-    //     return $response;
-    // }
     /**
      * @Route("/outbox", name="outbox_messages")
      */
     public function outbox(MessagesRepository $messagesRepository, UserRepository $userRepository): Response
     {
+        if (isset($_GET['errorMessage'])) {
+            return new Response(
+                '<html><body> ' . $_GET['errorMessage'] . '</body></html>'
+            );
+        }
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $users = $userRepository->findAll();
-
-        // $messages = $messagesRepository
-        //     ->findBy(
-        //         ['FromUserId' => $user->getId()]
-        //     );
 
         $messages = $messagesRepository->createQueryBuilder('m')
             ->andWhere("m.FromUserId = :val")
@@ -102,8 +78,9 @@ class MessagesController extends AbstractController
     /**
      * @Route("/info_message/{id}", methods="GET", name="info_message")
      */
-    public function infoMessage(Messages $message, ManagerRegistry $doctrine, MessagesRepository $messagesRepository, Request $request): Response
+    public function infoMessage(Messages $message, ManagerRegistry $doctrine, MessagesRepository $messagesRepository, Request $request, UserRepository $userRepository): Response
     {
+        //!Error handling
         if (!$message) {
             throw $this->createNotFoundException(
                 'No product found for id ' . $message->getId()
@@ -111,8 +88,19 @@ class MessagesController extends AbstractController
         }
         $entityManager = $doctrine->getManager();
 
+        //Get email of the user that sends the message
+        $getFromUserId = $messagesRepository->findBy([
+            'id' => $message->getId()
+        ]);
+
+        $fromUserEmail = $userRepository->findBy([
+            'id' => $getFromUserId[0]->getFromUserId()
+        ]);
+
+        //Update isRead in database
         $messageToUpdate = $entityManager->getRepository(Messages::class)->find($message->getId());
 
+        //!Error handling
         if (!$messageToUpdate) {
             throw $this->createNotFoundException(
                 'No product found for id ' . $message->getId()
@@ -124,14 +112,21 @@ class MessagesController extends AbstractController
 
         return $this->render('messages/info_message.html.twig', [
             'message' => $message,
+            'user' => $fromUserEmail[0]
         ]);
     }
 
+    //TODO: make the controller that handles ANSWER A MESSAGE
     /**
      * @Route("/new_message", name="new_message")
      */
     public function newMessage(ManagerRegistry $doctrine, ValidatorInterface $validator, UserRepository $userRepository): Response
     {
+        // //* Set de email, if is a response
+        // if(isset($_GET['email'])){
+
+        // }
+        
         //Current date for the message
         $date = new \DateTime('@' . strtotime('now'));
 

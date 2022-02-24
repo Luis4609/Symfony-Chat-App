@@ -7,9 +7,9 @@
 {% block body %}
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
-			<div class="container-fluild d-grid row" style="grid-template-columns: 1fr 3fr">
-				<a class="navbar-brand col col-lg-2" href="">Messages</a>
-				<div class="justify-content-md-center col">
+			<div class="container-fluid d-grid row" style="grid-template-columns: 1fr 1fr 1fr">
+				<a class="navbar-brand" href="#">Outbox</a>
+				<div class="justify-content-center" id="navbarCollapse">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item active">
 							<a class="nav-link" href="{{ path('messages_index') }}">Inbox
@@ -22,6 +22,13 @@
 							<a class="nav-link" href="{{ path('new_message_participants') }}">New message for multiple</a>
 						</li>
 					</ul>
+				</div>
+				<div class="d-flex">
+					<div class="flex-shrink-0 dropdown mx-auto">
+						<a href="{{ path('app_logout') }}" class="btn btn-outline-light">
+							Log Out
+						</a>
+					</div>
 				</div>
 			</div>
 		</nav>

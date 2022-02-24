@@ -8,16 +8,19 @@
 	<main class="container">
 		<div class="card">
 			<div class="card-header">
-				Info del mensaje
+				Message information
 			</div>
 			<div class="card-body">
 				<h5 class="card-title">From:
-					{{ message.id }}</h5>
-				<p class="card-text">{{ message.text }}</p>
-				<a href="{{ path('new_message') }}" class="btn btn-primary">
+					{{ user.email }}</h5>
+				<h6 >Text:</h6>
+				<p class="card-text">
+					{{ message.text }}</p>
+				<a href="{{ path('new_message'), {'email':user.email}) }}" class="btn btn-primary">
 					Answer</a>
 			</div>
 			<div class="card-footer text-muted">
+				Date:
 				{{ message.timestamp|date("H:i:s m/d/Y ") }}
 			</div>
 		</div>

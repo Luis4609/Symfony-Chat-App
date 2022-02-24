@@ -5,31 +5,21 @@
 
 {% block body %}
 	<div class="list-group">
-		<h2> Friends list
-			<i class="fas fa-inbox"></i>
+		<h2>
+			Contacts list
 		</h2>
-		<div class="messages">
-			{% for friend in friends %}
-				<a
-					href="{{ path('info_message', {'id': message.id}) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-					{# <img src="#" alt="Avatar de usuario" width="32" height="32" class="rounded-circle flex-shrink-0"/> #}
-					<div class="d-flex gap-2 w-100 justify-content-between">
-						<div>
-							<h6 class="mb-0">
-								{{ friend.id }}</h6>
-							<p class="mb-0 opacity-75">
-								{{ friend.email }}
-							</p>
-							<p class="mb-0 opacity-75">
-								{{ friend.roles[0] }}
-							</p>
-						</div>
-					</div>
-				</a>
-			{% endfor %}
-
-			<a href="{{ path('users_index') }}" class="btn btn-primary">Check users
-			</a>
-		</div>
+		{% for contact in contacts %}
+			<div
+				class="card">
+				{# <img src="..." class="card-img-top" alt="..."> #}
+				<div class="card-body">
+					<h5 class="card-title">{{ contact.email }}</h5>
+					<p class="card-text">{{ contact.roles[0] }}</p>
+					<a href="{{ path('users_profile', {'id': contact.id}) }}" class="btn btn-primary">Check profile</a>
+				</div>
+			</div>
+		{% endfor %}
+		<a href="{{ path('messages_index') }}" class="btn btn-secondary mt-2">Go back</a>
 	</div>
+
 {% endblock %}
