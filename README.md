@@ -18,9 +18,12 @@ Creating a chat application with symfony 6.
 ### Utils
 
 - Error pages: https://symfony.com/doc/current/controller/error_pages.html
+  -Error sending email: https://symfony.com/doc/current/mailer.html#handling-sending-failures
 - Config: https://symfony.com/doc/current/configuration.html#configuration-parameters
 - Test: https://symfony.com/doc/current/testing.html
 - Secrets: https://symfony.com/doc/current/configuration/secrets.html
+- Sending async emails: https://symfony.com/doc/current/mailer.html#sending-messages-async
+- Output console: https://symfony.com/doc/current/console.html#console-output
 
 ### TODO Css
 
