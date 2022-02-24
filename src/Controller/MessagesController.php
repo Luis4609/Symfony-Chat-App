@@ -4,16 +4,15 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Messages;
-use App\Form\SendMessageType;
 use App\Repository\MessagesRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\BrowserKit\Request as BrowserKitRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Mime\Message;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\BrowserKit\Request as BrowserKitRequest;
+use Symfony\Component\Mime\Message;
 
 /**
  * @Route("/messages")
@@ -24,9 +23,20 @@ class MessagesController extends AbstractController
     /**
      * @Route("/", name="messages_index")
      */
-    public function index(MessagesRepository $messagesRepository, UserRepository $userRepository): Response
+    public function index(MessagesRepository $messagesRepository, UserRepository $userRepository, Request $request): Response
     {
+        //TODO check if this work to return json on this controller
+        // if ($request->isXmlHttpRequest()) {
 
+        //     // creates a simple Response with a 200 status code (the default)
+        //     $response = new Response('Hello ' . $name, Response::HTTP_OK);
+
+        //     // creates a CSS-response with a 200 status code
+        //     $response = new Response('<style> ... </style>');
+        //     $response->headers->set('Content-Type', 'text/css');
+        // }
+
+        //? If a error is set, show an alert
         if (isset($_GET['errorMessage'])) {
             return new Response(
                 '<html><body> ' . $_GET['errorMessage'] . '</body></html>'
@@ -34,6 +44,8 @@ class MessagesController extends AbstractController
         }
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
+        //*Get all the users from the database
+        $users = $userRepository->findAll();
 
         $messages = $messagesRepository->createQueryBuilder('m')
             ->andWhere("m.ToUserId = :val")
@@ -42,7 +54,12 @@ class MessagesController extends AbstractController
             ->getQuery()
             ->getResult();
 
-        $users = $userRepository->findAll();
+        //!Error handling
+        if (!$messages) {
+            throw $this->createNotFoundException(
+                'There was an error, please try again.'
+            );
+        }
 
         return $this->render('messages/index.html.twig', [
             'messages' => $messages,
@@ -54,6 +71,7 @@ class MessagesController extends AbstractController
      */
     public function outbox(MessagesRepository $messagesRepository, UserRepository $userRepository): Response
     {
+        //? If a error is set, show an alert
         if (isset($_GET['errorMessage'])) {
             return new Response(
                 '<html><body> ' . $_GET['errorMessage'] . '</body></html>'
@@ -61,6 +79,7 @@ class MessagesController extends AbstractController
         }
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
+        //*Get all the users from the database
         $users = $userRepository->findAll();
 
         $messages = $messagesRepository->createQueryBuilder('m')
@@ -69,6 +88,13 @@ class MessagesController extends AbstractController
             ->orderBy('m.Timestamp', 'DESC')
             ->getQuery()
             ->getResult();
+
+        //!Error handling
+        if (!$messages) {
+            throw $this->createNotFoundException(
+                'There was an error, please try again.'
+            );
+        }
 
         return $this->render('messages/outbox.html.twig', [
             'messages' => $messages,
@@ -83,7 +109,7 @@ class MessagesController extends AbstractController
         //!Error handling
         if (!$message) {
             throw $this->createNotFoundException(
-                'No product found for id ' . $message->getId()
+                'No messsage found for id ' . $message->getId()
             );
         }
         $entityManager = $doctrine->getManager();
@@ -99,13 +125,6 @@ class MessagesController extends AbstractController
 
         //Update isRead in database
         $messageToUpdate = $entityManager->getRepository(Messages::class)->find($message->getId());
-
-        //!Error handling
-        if (!$messageToUpdate) {
-            throw $this->createNotFoundException(
-                'No product found for id ' . $message->getId()
-            );
-        }
 
         $messageToUpdate->setIsRead(true);
         $entityManager->flush();
@@ -126,7 +145,7 @@ class MessagesController extends AbstractController
         // if(isset($_GET['email'])){
 
         // }
-        
+
         //Current date for the message
         $date = new \DateTime('@' . strtotime('now'));
 
@@ -139,11 +158,9 @@ class MessagesController extends AbstractController
         $message = new Messages();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
             if ($user->getId() == $_POST['username']) {
                 return $this->redirectToRoute('messages_error?errorMessage=Cant send this message');
             }
-
             // * Get id of the user from the email
             $toUserId = $userRepository
                 ->findBy(
@@ -152,11 +169,10 @@ class MessagesController extends AbstractController
             $message->setToUserId($toUserId[0]->getId());
 
             //DATA FROM FORM
-            // $message->setToUserId($_POST['username']);
             $message->setText($_POST['message']);
             // $message->setAttachFile($_POST['fileToUpload']);
 
-            //Data that is default
+            //Set the data of the message, that the user dont write
             $message->setFromUserId($user->getId());
             $message->setTimestamp($date);
             $message->setIsRead(false);
@@ -196,10 +212,16 @@ class MessagesController extends AbstractController
                         ['email' => $participant]
                     );
                 $message->setToUserId($toUserId[0]->getId());
+                //DATA FROM FORM
                 $message->setText($_POST['message']);
+                // $message->setAttachFile($_POST['fileToUpload']);
+
+                //Set the data of the message, that the user dont write
                 $message->setFromUserId($user->getId());
                 $message->setTimestamp($date);
                 $message->setIsRead(false);
+
+                //Save new message in database
                 $entityManager->persist($message);
                 $entityManager->flush();
             }
