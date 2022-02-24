@@ -49,23 +49,26 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/profile{id}", name="users_profile")
+     * @Route("/profile/{id}", name="users_profile")
      */
-    public function profile(User $user): Response
+    public function profile(User $user, UserRepository $userRepository): Response
     {
         // $package = new Package(new StaticVersionStrategy('v1'));
         // $package->getUrl('/abstract_blue.png');
 
         /** @var \App\Entity\User $user */
-        $user = $this->getUser();
+        // $user = $this->getUser();
+
+        $userProfile = $userRepository->findBy([
+            'id' => $user->getId()
+        ]);
 
         return $this->render('users/profile.html.twig', [
-            'user' => $user,
-            // 'url' => $package,
+            'user' => $userProfile[0]->getEmail(),
         ]);
     }
     /**
-     * @Route("/edit-profile{id}", name="users_edit_profile")
+     * @Route("/edit-profile/{id}", name="users_edit_profile")
      */
     public function editProfile(UserRepository $userRepository, ManagerRegistry $doctrine, Request $request): Response
     {

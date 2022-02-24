@@ -1,29 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UsersController!
+{% block title %}User profile
 {% endblock %}
 
 {% block body %}
 	<div class="container">
 		<div class="list-group">
+			<h2>User profile</h2>
 			<div class="card mb-3 border-light" style="max-width: 540px;">
 				<div class="row g-0">
-					<div class="col-md-4">
-						<img src="../../assets/images/abstract_blue.jpg" class="img-fluid rounded-start" alt="Foto De perfil">
-					</div>
+					{# <div class="col-md-4"><img src="../../assets/images/abstract_blue.jpg" class="img-fluid rounded-start" alt="Foto De perfil">
+					</div> #}
 					<div class="col-md-8">
 						<div class="card-body">
-							<h5 class="card-title">{{ user.id }}</h5>
-							<p class="card-text">Email:
-								{{ user.email }}</p>
+							{# <h5 class="card-title">{{ user.id }}</h5> #}
+							<p class="card-text"><h5>Email: </h5> {{ user }}</p>
 						</div>
 					</div>
 				</div>
 			</div>
 			<hr class="mb-4">
-			<a href="{{ path('users_edit_profile', {'id': user.id}) }}" class="btn btn-primary btn-lg btn-block <?= $isDisabledEdit ?>">
-				Edit profile
-			</a>
+			{# <a href="{{ path('users_edit_profile', {'id': user.id}) }}" class="btn btn-primary btn-lg btn-block <?= $isDisabledEdit ?>">
+																Edit profile
+															</a> #}
+			<a href="{{ path('messages_index') }}" class="btn btn-secondary mt-2">Go back</a>
 		</div>
 	</div>
 
