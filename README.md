@@ -4,8 +4,6 @@ Creating a chat application with symfony 6.
 
 ## TODO
 
-- Error: https://symfony.com/doc/current/controller/error_pages.html
-
 ### JSON
 
 - https://diego.com.es/http-response-en-symfony
