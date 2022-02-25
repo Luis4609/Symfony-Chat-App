@@ -64,10 +64,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $LastName;
 
-    // /**
-    //  * @ORM\Column(type="string", length=255, nullable=true)
-    //  */
-    // private $Avatar;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $Avatar;
 
     public function getId(): ?int
     {

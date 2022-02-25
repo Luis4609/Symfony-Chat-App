@@ -12,6 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Asset\Package;
 use Symfony\Component\Asset\VersionStrategy\StaticVersionStrategy;
+use App\Service\FileUploader;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @Route("/users")
@@ -68,7 +70,7 @@ class UsersController extends AbstractController
     /**
      * @Route("/edit-profile/{id}", name="users_edit_profile")
      */
-    public function editProfile(UserRepository $userRepository, ManagerRegistry $doctrine, Request $request, User $user): Response
+    public function editProfile(UserRepository $userRepository, ManagerRegistry $doctrine, Request $request, User $user, FileUploader $fileUploader): Response
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
@@ -83,8 +85,14 @@ class UsersController extends AbstractController
             $userEdit->setLastName($_POST['lastName']);
             $userEdit->setAge($_POST['age']);
             $userEdit->setAddress($_POST['address']);
-            // $userEdit->setAvatar($_POST['fileToUpload']);
-
+            
+            /** @var UploadedFile $brochureFile */
+            // $brochureFile = $_POST['fileToUpload'];
+            $brochureFile = $_FILES["fileToUpload"]["name"];
+            if ($brochureFile) {
+                $brochureFileName = $fileUploader->upload($brochureFile);
+                $userEdit->setAvatar($brochureFileName);
+            }
 
             $entityManager->persist($userEdit);
             $entityManager->flush();

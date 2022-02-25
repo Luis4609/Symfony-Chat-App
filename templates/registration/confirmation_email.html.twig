@@ -1,11 +1,31 @@
+{% apply inline_css %}
+<style>
+	h1 {
+		color: #a83242;
+		font-size: 30px;
+		font-family: Tahoma, Verdana, sans-serif;
+	}
+    p {
+		color: black;
+		font-size: 14px;
+		font-family: Tahoma, Verdana, sans-serif;
+	}
+    a{
+         text-decoration: none;
+         color: blue;
+    }
+</style>
 <h1>Hi! Please confirm your email!</h1>
 
 <p>
-    Please confirm your email address by clicking the following link: <br><br>
-    <a href="{{ path('app_verify_email') }}">Confirm my Email</a>.
-    This link will expire in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+	Please confirm your email address by clicking the following link:
+	<br><br>
+	<a href="{{ path('app_verify_email') }}">Confirm my Email</a>.
+				    This link will expire in
+	{{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
 </p>
 
 <p>
-    Cheers!
+	Cheers!
 </p>
+{% endapply %}

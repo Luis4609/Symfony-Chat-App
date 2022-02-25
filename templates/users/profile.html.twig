@@ -8,18 +8,15 @@
 		<div class="list-group">
 			<h2>User profile</h2>
 			<div class="card mb-3 border-light" style="max-width: 540px;">
-				<div
-					class="row g-0">
+				<div class="row g-0">
 					{# <div class="col-md-4"><img src="../../assets/images/abstract_blue.jpg" class="img-fluid rounded-start" alt="Foto De perfil">
 																														</div> #}
 					<div class="col-md-8">
-						<div
-							class="card-body">
-							{# <h5 class="card-title">{{ user.id }}</h5> #}
-							<p class="card-text">
-								<h5>Email:
-								</h5>
-								{{ user }}</p>
+						<div class="card-body">
+							<h5 class="card-title">{{ [data_user.getFirstName, data_user.getLastName]|join(' ')}}</h5>
+							<p class="card-text">Email: {{ user }}</p>
+                   	 		<p class="card-text">Age: {{ data_user.getAge }}</p>
+                    		<p class="card-text">Address: {{ data_user.getAddress }}</p>
 						</div>
 					</div>
 				</div>
