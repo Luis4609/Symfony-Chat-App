@@ -150,8 +150,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+    //TODO change for $this->firstName.' '.$this->lastName
     public function __toString() {
-        return $this->email;
+        return $this->email.' '.'';
     }
 
     public function getAvatar(): ?string
@@ -213,4 +214,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
 }

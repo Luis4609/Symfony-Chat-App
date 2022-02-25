@@ -14,3 +14,7 @@ import "./styles/sign-in.css";
 import "./bootstrap";
 
 import "socket.io";
+
+import logoPath from "../images/logo.png";
+
+let html = `<img src="${logoPath}" alt="ACME logo">`;
