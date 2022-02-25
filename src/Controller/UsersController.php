@@ -53,9 +53,6 @@ class UsersController extends AbstractController
      */
     public function profile(User $user, UserRepository $userRepository): Response
     {
-        // $package = new Package(new StaticVersionStrategy('v1'));
-        // $package->getUrl('/abstract_blue.png');
-
         /** @var \App\Entity\User $user */
         // $user = $this->getUser();
 
@@ -65,35 +62,38 @@ class UsersController extends AbstractController
 
         return $this->render('users/profile.html.twig', [
             'user' => $userProfile[0]->getEmail(),
+            'data_user' => $user
         ]);
     }
     /**
      * @Route("/edit-profile/{id}", name="users_edit_profile")
      */
-    public function editProfile(UserRepository $userRepository, ManagerRegistry $doctrine, Request $request): Response
+    public function editProfile(UserRepository $userRepository, ManagerRegistry $doctrine, Request $request, User $user): Response
     {
-        // /** @var \App\Entity\User $user */
-        // $user = $this->getUser();
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
         $entityManager = $doctrine->getManager();
 
-        $user = new User();
-        $form = $this->createForm(EditProfileType::class, $user);
+        $userEdit = $entityManager->getRepository(User::class)->find($user->getId());
 
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-            $user = $form->getData();
+            $userEdit->setFirstName($_POST['firstName']);
+            $userEdit->setLastName($_POST['lastName']);
+            $userEdit->setAge($_POST['age']);
+            $userEdit->setAddress($_POST['address']);
+            // $userEdit->setAvatar($_POST['fileToUpload']);
 
-            $entityManager->persist($user);
+
+            $entityManager->persist($userEdit);
             $entityManager->flush();
 
-            return $this->redirectToRoute('users_index');
+            return $this->redirectToRoute('messages_index');
         }
 
         return $this->render('users/edit-profile.html.twig', [
-            //'user' => $user,
-            'form' => $form,
+            'user' => $user
         ]);
     }
 }
