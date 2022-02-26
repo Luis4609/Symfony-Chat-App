@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\BrowserKit\Request as BrowserKitRequest;
 use Symfony\Component\Mime\Message;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/messages")
@@ -25,16 +26,6 @@ class MessagesController extends AbstractController
      */
     public function index(MessagesRepository $messagesRepository, UserRepository $userRepository, Request $request): Response
     {
-        //TODO check if this work to return json on this controller
-        // if ($request->isXmlHttpRequest()) {
-
-        //     // creates a simple Response with a 200 status code (the default)
-        //     $response = new Response('Hello ' . $name, Response::HTTP_OK);
-
-        //     // creates a CSS-response with a 200 status code
-        //     $response = new Response('<style> ... </style>');
-        //     $response->headers->set('Content-Type', 'text/css');
-        // }
 
         //? If a error is set, show an alert
         if (isset($_GET['errorMessage'])) {
@@ -54,6 +45,34 @@ class MessagesController extends AbstractController
             ->getQuery()
             ->getResult();
 
+        //TODO check if this work to return json on this controller
+        if ($request->isXmlHttpRequest()) {
+
+            // creates a simple Response with a 200 status code (the default)
+            // $response = new Response($messages, Response::HTTP_OK);
+            $response = new Response();
+
+            // sets a HTTP response header
+            // $response->headers->set('Content-Type', 'text/html');
+            // prints the HTTP headers followed by the content
+            // $response->setContent(json_encode([
+            //     'messages' => $messages,
+            // ]));
+            // $response->headers->set('Content-Type', 'application/json');
+
+            // if you know the data to send when creating the response
+            // $response = new JsonResponse(['messages' => $messages]);
+
+            // if you don't know the data to send or if you want to customize the encoding options
+            $response = new JsonResponse();
+            // ...
+            // configure any custom encoding options (if needed, it must be called before "setData()")
+            //$response->setEncodingOptions(JsonResponse::DEFAULT_ENCODING_OPTIONS | \JSON_PRESERVE_ZERO_FRACTION);
+            $response->setData(['messages' => $messages,]);
+            $response->send();
+            return $response;
+            return new JsonResponse($messages, 200, ["Content-Type" => "application/json"]);
+        }
         //!Error handling
         if (!$messages) {
             throw $this->createNotFoundException(

@@ -13,10 +13,8 @@ use Symfony\Component\Mime\Message;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 /**
@@ -26,7 +24,7 @@ class ApiMessagesController extends AbstractController
 {
     //TODO: create APIs to get the messages for user
     /**
-     * @Route("/inbox/{id}", name="api_inbox")
+     * @Route("/inbox/{id}", name="api_inbox", methods="GET")
      */
     public function inbox(MessagesRepository $messagesRepository): Response
     {
@@ -36,7 +34,7 @@ class ApiMessagesController extends AbstractController
             ->findBy(
                 ['FromUserId' => $user->getId()]
             );
-        //Convert to JSON
+        //Convert to JSON 
         $jsonMessages = json_encode($messages);
 
         // creates a simple Response with a 200 status code (the default)
@@ -47,10 +45,11 @@ class ApiMessagesController extends AbstractController
 
         // the shortcut defines three optional arguments
         // return $this->json($data, $status = 200, $headers = [], $context = []);
-        return $response;
+        // return $response;
+        return new JsonResponse($jsonMessages, 200, ["Content-Type" => "application/json"]);
     }
     /**
-     * @Route("/outbox/{id}", name="api_outbox")
+     * @Route("/outbox/{id}", name="api_outbox", methods="GET")
      */
     public function outbox(MessagesRepository $messagesRepository): Response
     {
@@ -71,7 +70,7 @@ class ApiMessagesController extends AbstractController
         return $response;
     }
     /**
-     * @Route("/info_message/{id}", name="api_outbox")
+     * @Route("/info_message/{id}", name="api_outbox", methods="GET")
      */
     public function infoMessage(Messages $message, MessagesRepository $messagesRepository, ManagerRegistry $doctrine, UserRepository $userRepository): Response
     {

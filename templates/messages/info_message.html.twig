@@ -16,7 +16,7 @@
 				<h6 >Text:</h6>
 				<p class="card-text">
 					{{ message.text }}</p>
-				<a href="{{ path('new_message'), {'email':user.email}) }}" class="btn btn-primary">
+				<a href="{{ path('new_message', {'email':user.email})}}" class="btn btn-primary">
 					Answer</a>
 			</div>
 			<div class="card-footer text-muted">

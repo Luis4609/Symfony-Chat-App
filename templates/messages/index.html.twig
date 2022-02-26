@@ -54,7 +54,7 @@
 			Inbox
 			<i class="fas fa-inbox"></i>
 		</h2>
-		<div class="messages">
+		<div class="messages" >
 
 			{% for message in messages %}
 				<a
@@ -84,8 +84,40 @@
 			{% endfor %}
 
 		</div>
+		{# <button id="button">Reload messages</button>
+		<div id="messages">
+		</div> #}
 		<div class="">
 			<a href="{{ path('new_message') }}" class="btn btn-primary">New message</a>
 		</div>
 	</div>
+
+	{# <script>
+	  document.getElementById('button').addEventListener('click', loadMessages);
+	
+		function loadMessages(){
+ 		var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'http://127.0.0.1:8000/messages/', true);
+				console.log(`Hola`)
+            xhr.onload = function () {
+                if (this.status == 200) {
+                    var messages = JSON.parse(this.responseText);
+					console.log(`Nuevo mensajes: ${messages}`)
+
+                    var output = '';
+                    for(var i in messages){
+                        output += '<ul>' +
+                            '<li>ID: ' + messages[i].id + '</li>' +
+                            '<li>Name: ' + messages[i].name + '</li>' +
+                            '</ul>';
+
+                    }
+                        document.getElementById('messages').innerHTML = output;
+                }
+            }
+            xhr.send();
+		}
+	
+	
+	</script> #}
 {% endblock %}

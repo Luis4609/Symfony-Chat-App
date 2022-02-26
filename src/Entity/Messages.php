@@ -4,10 +4,18 @@ namespace App\Entity;
 
 use App\Repository\MessagesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MessagesRepository::class)
  */
+#[ApiResource(
+    collectionOperations: ['get' => ['normalization_context' => ['groups' => 'message:list']]],
+    itemOperations: ['get' => ['normalization_context' => ['groups' => 'message:item']]],
+    order: ['Timestamp' => 'DESC'],
+    paginationEnabled: false,
+)]
 class Messages
 {
     /**
@@ -15,6 +23,7 @@ class Messages
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['message:list', 'message:item'])]
     private $id;
 
     /**
@@ -23,6 +32,7 @@ class Messages
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['message:list', 'message:item'])]
     private $FromUserId;
 
     /**
@@ -31,16 +41,19 @@ class Messages
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['message:list', 'message:item'])]
     private $ToUserId;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    #[Groups(['message:list', 'message:item'])]
     private $Text;
 
     /**
      * @ORM\Column(type="datetime")
      */
+    #[Groups(['message:list', 'message:item'])]
     private $Timestamp;
 
     /**
@@ -51,6 +64,7 @@ class Messages
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    #[Groups(['message:list', 'message:item'])]
     private $AttachFile;
 
     public function getId(): ?int
