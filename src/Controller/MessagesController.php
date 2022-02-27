@@ -203,6 +203,7 @@ class MessagesController extends AbstractController
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['messageParticipants'])) {
             foreach ($_POST['messageParticipants'] as $participant) {
                 $message = new Messages();
+                
                 // * Get id of the user from the email
                 $toUserId = $userRepository
                     ->findBy(
