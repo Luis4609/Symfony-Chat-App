@@ -6,16 +6,22 @@ use App\Repository\MessagesRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 
 /**
  * @ORM\Entity(repositoryClass=MessagesRepository::class)
  */
 #[ApiResource(
-    collectionOperations: ['get' => ['normalization_context' => ['groups' => 'message:list']]],
+    collectionOperations: [ 'get' => ['normalization_context' => ['groups' => 'message:list']]],
     itemOperations: ['get' => ['normalization_context' => ['groups' => 'message:item']]],
     order: ['Timestamp' => 'DESC'],
     paginationEnabled: false,
 )]
+#[ApiFilter(SearchFilter::class, properties: ['ToUserId' => 'exact'])]
+#[ApiFilter(DateFilter::class, properties: ['Timestamp'])]
+
 class Messages
 {
     /**

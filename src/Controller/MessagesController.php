@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use ApiPlatform\Core\Filter\Validator\Length;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Messages;
 use App\Repository\MessagesRepository;
@@ -45,6 +46,12 @@ class MessagesController extends AbstractController
             ->getQuery()
             ->getResult();
 
+        if (count($messages) > 0) {
+            $lastMessage = $messages[0];
+        } else {
+            $lastMessage = null;
+        }
+
         //TODO check if this work to return json on this controller
         if ($request->isXmlHttpRequest()) {
 
@@ -82,7 +89,8 @@ class MessagesController extends AbstractController
 
         return $this->render('messages/index.html.twig', [
             'messages' => $messages,
-            'users' => $users
+            'users' => $users,
+            'lastMessage' => $lastMessage
         ]);
     }
     /**
