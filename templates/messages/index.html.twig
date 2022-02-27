@@ -31,11 +31,6 @@
 							<a class="nav-link" href="{{ path('users_profile', {'id': app.user.id}) }}">Profile
 							</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{ path('messages_search') }}">Search
-								<i class="fa fa-search"></i>
-							</a>
-						</li>
 					</ul>
 				</div>
 				<div class="d-flex">
@@ -54,11 +49,10 @@
 			Inbox
 			<i class="fas fa-inbox"></i>
 		</h2>
-		<div class="messages" id="messages">
+		<div class="messages overflow-auto" id="messages">
 
 			{% for message in messages %}
-				<a
-					href="{{ path('info_message', {'id': message.id}) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3 mb-1" aria-current="true">
+				<a	href="{{ path('info_message', {'id': message.id}) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3 mb-1" aria-current="true">
 					{# <img src="#" alt="Avatar de usuario" width="32" height="32" class="rounded-circle flex-shrink-0"/> #}
 					<div class="d-flex gap-2 w-100 justify-content-between">
 						<div>
@@ -84,10 +78,10 @@
 			{% endfor %}
 
 		</div>
-		<button id="button">Reload messages</button>
+		{# <button id="button">Reload messages</button> #}
 
 		<input value="{{app.user.id}}" hidden id="loggedInUser">
-		<input value="{{app.user.email}}" id="loggedInUserEmail">	
+		{# <input value="{{users}}" id="loggedInUserEmail">	 #}
 		<input value="{{lastMessage.timestamp|date("H:i:s m/d/Y ") }}" hidden id="lastMessage">
 		
 		<div class="">
@@ -96,10 +90,8 @@
 	</div>
 
 	<script>
-
-        document.getElementById('button').addEventListener('click', loadMessages);
 		const loggedInUser = document.getElementById('loggedInUser').value;
-		const loggedInUserEmail = document.getElementById('loggedInUserEmail').value;
+		{# const loggedInUserEmail = document.getElementById('loggedInUserEmail').value; #}
 		const lastMessage = document.getElementById('lastMessage').value;
 
         function loadMessages() {
@@ -108,6 +100,7 @@
             xhr.setRequestHeader('accept', 'application/json'); 
 			console.log(`${loggedInUser}`)
 			console.log(`${lastMessage}`)
+			console.log(`${users}`)	
 
             xhr.onload = function () {
                 if (this.status == 200) {
@@ -123,7 +116,7 @@
 							 output.innerHTML = ` <a href="/messages/info_message/${ messages[i].Id}" class="list-group-item list-group-item-action d-flex gap-3 py-3 mb-1" aria-current="true">
 											<div class="d-flex gap-2 w-100 justify-content-between">
 												<div>
-												<h6 class="mb-0">${loggedInUserEmail}</h6>
+												<h6 class="mb-0">${messages[i].FromUserId}</h6>
 												<p class="mb-0 opacity-75">${ messages[i].Text}</p>
 												</div>
 													<small class="opacity-50 text-nowrap">${ messages[i].Timestamp} </small>
@@ -142,8 +135,8 @@
             xhr.send();
         }
 		//Add interval to loadMessages and execute with the load of the document
-		const interval = setInterval(loadMessages, 10000);
-		window.onload = interval;
+		{# const interval = setInterval(loadMessages, 30000);
+		window.onload = interval; #}
 
 
     </script>

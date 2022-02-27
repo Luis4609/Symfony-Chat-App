@@ -12,16 +12,19 @@
 				<label for="username">To:
 				</label>
 				<!-- <input type="text" class="form-control" id="username" name="username" placeholder="" value="<?= $touseridurl ?>" required hidden> -->
-				<input type="text" class="form-control" id="username" name="username" list="contacts" placeholder="" required>
+				{# <input type="text" class="form-control" id="username" name="username" list="contacts" placeholder="" required>
 				<div class="invalid-feedback">
 					Valid user name is required.
-				</div>
-
-				<datalist id="contacts">
+				</div> #}
+				<select class="form-select"  name="username" id="contacts" required>
 					{% for user in users %}
-						<option value={{user.email}}></option>
+						{% if emailSet == user.email %}
+						<option value={{user.email}} selected>{{user.email}}</option>
+						{% else %}
+						<option value={{user.email}}>{{user.email}}</option>
+						{% endif %}
 					{% endfor %}
-				</datalist>
+				</select>
 			</div>
 			<div class="col-md-6 mb-3">
 				<label for="message">Message</label>

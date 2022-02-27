@@ -17,18 +17,4 @@ class MessagesByUserController extends AbstractController
             'controller_name' => 'MessagesByUserController',
         ]);
     }
-
-    // private $bookPublishingHandler;
-
-    // public function __construct(BookPublishingHandler $bookPublishingHandler)
-    // {
-    //     $this->bookPublishingHandler = $bookPublishingHandler;
-    // }
-
-    // public function __invoke(Book $data): Book
-    // {
-    //     $this->bookPublishingHandler->handle($data);
-
-    //     return $data;
-    // }
 }

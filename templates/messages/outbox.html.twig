@@ -5,8 +5,9 @@
 {% endblock %}
 
 {% block body %}
+
 	<header>
-		<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+		<nav class="navbar navbar-expand-lg navbar-scroll navbar-dark fixed-top bg-dark">
 			<div class="container-fluid d-grid row" style="grid-template-columns: 1fr 1fr 1fr">
 				<a class="navbar-brand" href="#">Outbox</a>
 				<div class="justify-content-center" id="navbarCollapse">
@@ -33,10 +34,10 @@
 			</div>
 		</nav>
 	</header>
-	<main class="container">
-		<div class="list-group ">
+	<main class="container overflow-auto mt-2">
+		<div class="list-group">
 			<h2>Outbox</h2>
-			<div class="mb-2 overflow-scroll">
+			<div class="">
 				{% for message in messages %}
 					<a
 						href="{{ path('info_message', {'id': message.id}) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
