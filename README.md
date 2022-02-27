@@ -33,7 +33,11 @@
 <br />
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
+<<<<<<< HEAD
     <img src="images/logo readme.png" alt="Logo" width="80" height="80">
+=======
+    <img src="/assets/images/logo.png" alt="Logo" width="80" height="80">
+>>>>>>> 4614192c117b90d30deeb6297eb1007676eb617c
   </a>
 
   <h3 align="center">Symfony Message-App</h3>
@@ -257,4 +261,10 @@ Use this space to list resources you find helpful and would like to give credit 
 [issues-url]: https://github.com/othneildrew/Best-README-Template/issues
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
 [license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
+<<<<<<< HEAD
 [product-screenshot]: /assets/images/product.png
+=======
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/othneildrew
+[product-screenshot]: images/screenshot.png
+>>>>>>> 4614192c117b90d30deeb6297eb1007676eb617c
