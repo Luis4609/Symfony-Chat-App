@@ -12,16 +12,13 @@
   <h3 align="center">Symfony Message-App</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    <a href="https://github.com/Luis4609/Symfony-Chat-App/issues">Report Bug</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    <a href="https://github.com/Luis4609/Symfony-Chat-App/issues">Request Feature</a>
   </p>
 </div>
 
@@ -83,14 +80,6 @@ This is an message application build with PHP framework Symfony. Exposes APIs wi
 
   ```sh
   git clone https://github.com/Luis4609/Chat-App.git
-  ```
-
-
-
-- npm
-
-  ```sh
-  npm install npm@latest -g
   ```
 
 - webpack

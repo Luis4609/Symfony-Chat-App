@@ -130,7 +130,6 @@ class MessagesController extends AbstractController
         ]);
     }
 
-    //TODO: make the controller that handles ANSWER A MESSAGE
     /**
      * @Route("/new_message", name="new_message")
      */
