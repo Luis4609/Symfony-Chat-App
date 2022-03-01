@@ -4,14 +4,11 @@ namespace App\Controller;
 
 use App\Repository\UserRepository;
 use App\Entity\User;
-use App\Form\EditProfileType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Asset\Package;
-use Symfony\Component\Asset\VersionStrategy\StaticVersionStrategy;
 use App\Service\FileUploader;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -27,6 +24,7 @@ class UsersController extends AbstractController
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
+
         return $this->render('users/index.html.twig', [
             'user' => $user,
         ]);

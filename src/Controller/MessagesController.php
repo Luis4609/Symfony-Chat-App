@@ -135,8 +135,8 @@ class MessagesController extends AbstractController
      */
     public function newMessage(ManagerRegistry $doctrine, ValidatorInterface $validator, UserRepository $userRepository, Request $request): Response
     {
+        //* Set de email, if is a response - GET EMAIL FROM URL
         $emailSet = $request->query->get('email');
-        //* Set de email, if is a response
         if (!isset($emailSet)) {
             $emailSet = "";
         }
